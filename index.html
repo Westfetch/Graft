@@ -471,17 +471,24 @@
         </div>
       </div>
 
-      <a class="module-card" href="mailto:admin@graft.tools" style="--accent: #666;">
+      <div class="module-card" id="contact-card" style="--accent: #666;">
         <span class="module-slug">Graft/???</span>
         <span class="module-name">What's next?</span>
-        <p class="module-desc">
+        <p class="module-desc" id="contact-desc">
           Built from personal pain. If you've got a workflow that needs fixing, it might become the next module.
         </p>
+        <form id="contact-form" style="display:none; flex-direction:column; gap:10px;">
+          <input type="text" name="name" placeholder="Name" required style="background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px;font-family:var(--font);font-size:.75rem;outline:none;" />
+          <input type="email" name="email" placeholder="Email" required style="background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px;font-family:var(--font);font-size:.75rem;outline:none;" />
+          <textarea name="message" placeholder="What workflow needs fixing?" required rows="3" style="background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px;font-family:var(--font);font-size:.75rem;outline:none;resize:vertical;"></textarea>
+          <button type="submit" style="background:var(--text);color:var(--bg);border:none;padding:10px;font-family:var(--font);font-size:.75rem;cursor:pointer;letter-spacing:.06em;">Send →</button>
+        </form>
+        <p id="contact-success" style="display:none;color:#4ade80;font-size:.8rem;">Sent. We'll be in touch.</p>
         <div class="module-meta">
-          <span class="module-status">Get in touch</span>
-          <span class="module-arrow">→</span>
+          <span class="module-status" id="contact-status" style="cursor:pointer;" onclick="toggleForm()">Get in touch</span>
+          <span class="module-arrow" id="contact-arrow">→</span>
         </div>
-      </a>
+      </div>
 
     </div>
   </section>
@@ -506,13 +513,55 @@
 
   <footer>
     <span>graft.tools</span>
-    <span>Built in the UK &nbsp;·&nbsp; <a href="mailto:hello@graft.tools">hello@graft.tools</a></span>
+    <span>Built in the UK &nbsp;·&nbsp; <a href="mailto:admin@graft.tools">admin@graft.tools</a></span>
   </footer>
 
   <script>
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Contact form
+    function toggleForm() {
+      const form = document.getElementById('contact-form');
+      const desc = document.getElementById('contact-desc');
+      const isHidden = form.style.display === 'none';
+      form.style.display = isHidden ? 'flex' : 'none';
+      desc.style.display = isHidden ? 'none' : 'block';
+    }
+    window.toggleForm = toggleForm;
+
+    document.getElementById('contact-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const btn = e.target.querySelector('button');
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+      try {
+        const res = await fetch('https://uber-van.vercel.app/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            source: 'graft-site',
+            name: fd.get('name'),
+            email: fd.get('email'),
+            message: fd.get('message'),
+          }),
+        });
+        if (res.ok) {
+          document.getElementById('contact-form').style.display = 'none';
+          document.getElementById('contact-success').style.display = 'block';
+          document.getElementById('contact-status').textContent = 'Sent';
+          document.getElementById('contact-arrow').textContent = '';
+        } else {
+          btn.textContent = 'Failed — try again';
+          btn.disabled = false;
+        }
+      } catch {
+        btn.textContent = 'Failed — try again';
+        btn.disabled = false;
+      }
     });
 
     document.querySelectorAll('a[href^="#"]').forEach(a => {
