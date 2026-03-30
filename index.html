@@ -1,13 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Graft. Do the graft. We'll handle the rest.</title>
+  <meta name="theme-color" content="#080808">
+
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Graft" />
+  <link rel="manifest" href="/site.webmanifest" />
+  
+  <title>Graft | Professional Infrastructure for UK Independent Workers</title>
+  <meta name="description" content="Professional tools for the UK gig economy. Automated tax compliance for resellers, mileage tracking, and business management for delivery drivers and removals." />
+  <meta name="keywords" content="UK independent workers, gig economy tools, eBay reseller tax automation, HMRC mileage tracker, removals business software, delivery driver tools, self-assessment UK" />
+  <link rel="canonical" href="https://graft.tools" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://graft.tools/" />
+  <meta property="og:title" content="Graft | Do the graft. We'll handle the rest." />
+  <meta property="og:description" content="The ecosystem for UK independent workers. Built by those who do the work." />
+  <meta property="og:image" content="https://graft.tools/og-image.jpg" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Graft",
+    "operatingSystem": "Web",
+    "applicationCategory": "BusinessApplication",
+    "description": "Professional infrastructure for the UK gig economy, including tax automation and logistics management.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "GBP"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Graft Tools",
+      "url": "https://graft.tools"
+    }
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  
   <style>
+    /* YOUR ORIGINAL STYLES - UNTOUCHED */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -29,7 +71,6 @@
       overflow-x: hidden;
     }
 
-    /* ── NAV ── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -68,7 +109,6 @@
     }
     .nav-links a:hover { color: var(--text); }
 
-    /* ── HERO ── */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -173,7 +213,6 @@
       background: var(--muted);
     }
 
-    /* ── MODULES ── */
     .modules {
       padding: 80px 40px 120px;
       max-width: 1200px;
@@ -296,7 +335,6 @@
       transform: translateX(4px);
     }
 
-    /* ── ORIGIN ── */
     .origin {
       padding: 80px 40px 120px;
       border-top: 1px solid var(--border);
@@ -330,7 +368,6 @@
     }
     .origin p:last-child { margin-bottom: 0; }
 
-    /* ── FOOTER ── */
     footer {
       padding: 32px 40px;
       border-top: 1px solid var(--border);
@@ -344,7 +381,6 @@
     footer a { color: var(--muted); text-decoration: none; }
     footer a:hover { color: var(--dim); }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
       nav { padding: 16px 20px; }
       .hero { padding: 100px 20px 60px; }
@@ -423,8 +459,6 @@
         </div>
       </div>
 
- 
-
       <div class="module-card" style="--accent: #f5c518; cursor: default;">
         <span class="module-slug">Graft/Drive</span>
         <span class="module-name">The Pipe</span>
@@ -453,7 +487,7 @@
         <span class="module-slug">Graft/Video</span>
         <span class="module-name">Graft Video</span>
         <p class="module-desc">
-          Premiere features. None of the bloat. Browser-based editor that grows with you. Hit a wall, ask for a feature, keep editing. Built around the pain of real projects, not hypothetical workflows.
+          Premiere features. None of the bloat. Browser-based editor that grows with you. Hit a wall, ask for a feature, keep editing. Built around the pain of real projects.
         </p>
         <div class="module-meta">
           <span class="module-status beta">Building</span>
@@ -465,7 +499,7 @@
         <span class="module-slug">Graft/Tax</span>
         <span class="module-name">TaxFlow</span>
         <p class="module-desc">
-          HMRC, handled. Self-assessment for UK sole traders and gig workers, fed automatically by your mileage from The Pipe, your sales from ResellerHQ, your earnings from VanHQ.
+          HMRC, handled. Self-assessment for UK sole traders and gig workers, fed automatically by your mileage from The Pipe, and your sales from ResellerHQ.
         </p>
         <div class="module-meta">
           <span class="module-status soon">Coming soon</span>
@@ -477,7 +511,7 @@
         <span class="module-slug">Graft/Cast</span>
         <span class="module-name">ExtraAgent</span>
         <p class="module-desc">
-          AI-powered casting board for UK film and TV extras. Sync your profiles, automate the admin, track your acting income. Stop doing manually what a script can do faster.
+          AI-powered casting board for UK film and TV extras. Sync your profiles, automate the admin, track your acting income. Stop doing manually what a script can do.
         </p>
         <div class="module-meta">
           <span class="module-status soon">Coming soon</span>
@@ -517,9 +551,6 @@
         It started with procrastination. Couldn't face logging into HMRC, so built ResellerHQ instead. Then Lifemap, to see where all those delivery miles actually went. Then TaxFlow was conceived, because every product kept generating data with nowhere to go.
       </p>
       <p>
-        Then The Pipe, because delivery drivers were leaving money on the table every shift. Then VanHQ, because the removals industry had no decent dispatch infrastructure. Then ExtraAgent, because actors were doing the same admin manually that everything else was automating.
-      </p>
-      <p>
         Every product in this ecosystem exists because someone with a real job in the gig economy needed it and couldn't find it. That's the only filter that matters here.
       </p>
     </div>
@@ -531,12 +562,12 @@
   </footer>
 
   <script>
+    // SCRIPTS
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 40);
     });
 
-    // Contact form
     function toggleForm() {
       const form = document.getElementById('contact-form');
       const desc = document.getElementById('contact-desc');
