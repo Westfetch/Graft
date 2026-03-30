@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Graft — Do the graft. We'll handle the rest.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080808;
+      --surface: #111111;
+      --border: #1e1e1e;
+      --muted: #444;
+      --text: #e8e8e8;
+      --dim: #888;
+      --font: 'JetBrains Mono', monospace;
+    }
+
+    html { font-size: 16px; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s, background .3s;
+    }
+    nav.scrolled {
+      background: rgba(8,8,8,.92);
+      backdrop-filter: blur(12px);
+      border-color: var(--border);
+    }
+    .nav-logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--dim); font-weight: 300; }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .75rem;
+      color: var(--dim);
+      text-decoration: none;
+      letter-spacing: .06em;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 40px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent);
+    }
+
+    .hero-content {
+      max-width: 900px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-size: .7rem;
+      letter-spacing: .18em;
+      color: var(--dim);
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .hero-eyebrow::before {
+      content: '// ';
+      color: var(--muted);
+    }
+
+    .hero-wordmark {
+      font-size: clamp(5rem, 14vw, 11rem);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      line-height: .9;
+      margin-bottom: 40px;
+      color: #fff;
+    }
+
+    .hero-tagline {
+      font-size: clamp(1rem, 2.2vw, 1.4rem);
+      font-weight: 300;
+      color: var(--dim);
+      line-height: 1.6;
+      max-width: 520px;
+      margin-bottom: 56px;
+    }
+    .hero-tagline strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font);
+      font-size: .8rem;
+      letter-spacing: .08em;
+      color: var(--bg);
+      background: var(--text);
+      border: none;
+      padding: 14px 28px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+    .hero-cta:hover { opacity: .85; }
+    .hero-cta-secondary {
+      background: transparent;
+      color: var(--dim);
+      border: 1px solid var(--border);
+      margin-left: 12px;
+    }
+    .hero-cta-secondary:hover { color: var(--text); border-color: var(--muted); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      font-size: .65rem;
+      letter-spacing: .12em;
+      color: var(--muted);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-scroll::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--muted);
+    }
+
+    /* ── MODULES ── */
+    .modules {
+      padding: 80px 40px 120px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: .65rem;
+      letter-spacing: .2em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 48px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .module-card {
+      background: var(--bg);
+      padding: 36px 32px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+      transition: background .2s;
+      cursor: pointer;
+    }
+    .module-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 2px;
+      height: 100%;
+      background: var(--accent, var(--border));
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .module-card:hover {
+      background: var(--surface);
+    }
+    .module-card:hover::before { opacity: 1; }
+
+    .module-slug {
+      font-size: .7rem;
+      letter-spacing: .1em;
+      color: var(--accent, var(--dim));
+      font-weight: 500;
+    }
+
+    .module-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -.01em;
+    }
+
+    .module-desc {
+      font-size: .8rem;
+      color: var(--dim);
+      line-height: 1.65;
+      font-weight: 300;
+      flex: 1;
+    }
+
+    .module-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      font-size: .65rem;
+      letter-spacing: .06em;
+      color: var(--muted);
+    }
+    .module-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .module-status::before {
+      content: '';
+      display: block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent, var(--muted));
+      opacity: .6;
+    }
+    .module-status.live::before { opacity: 1; animation: pulse 2s infinite; }
+    .module-status.beta::before { opacity: .5; }
+    .module-status.soon::before { background: var(--muted); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .3; }
+    }
+
+    .module-arrow {
+      color: var(--muted);
+      transition: color .2s, transform .2s;
+    }
+    .module-card:hover .module-arrow {
+      color: var(--accent, var(--text));
+      transform: translateX(4px);
+    }
+
+    /* ── ORIGIN ── */
+    .origin {
+      padding: 80px 40px 120px;
+      border-top: 1px solid var(--border);
+    }
+    .origin-inner {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .origin blockquote {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 40px;
+      position: relative;
+      padding-left: 28px;
+    }
+    .origin blockquote::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 4px; bottom: 4px;
+      width: 2px;
+      background: var(--muted);
+    }
+    .origin p {
+      font-size: .85rem;
+      color: var(--dim);
+      line-height: 1.8;
+      font-weight: 300;
+      margin-bottom: 16px;
+    }
+    .origin p:last-child { margin-bottom: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 32px 40px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: .65rem;
+      letter-spacing: .1em;
+      color: var(--muted);
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--dim); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 16px 20px; }
+      .hero { padding: 100px 20px 60px; }
+      .hero-scroll { left: 20px; }
+      .modules, .origin { padding-left: 20px; padding-right: 20px; }
+      footer { padding: 24px 20px; flex-direction: column; gap: 8px; text-align: center; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <a href="#" class="nav-logo">GRAFT<span>.tools</span></a>
+    <ul class="nav-links">
+      <li><a href="#modules">Modules</a></li>
+      <li><a href="#origin">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Independent worker infrastructure</p>
+      <h1 class="hero-wordmark">GRAFT</h1>
+      <p class="hero-tagline">
+        <strong>Do the graft.</strong> We'll handle the rest.<br>
+        Tools for UK independent workers — built by someone who actually does the work.
+      </p>
+      <div>
+        <a href="#modules" class="hero-cta">Browse modules →</a>
+        <a href="#origin" class="hero-cta hero-cta-secondary">Our story</a>
+      </div>
+    </div>
+    <p class="hero-scroll">Scroll to explore</p>
+  </section>
+
+  <section class="modules" id="modules">
+    <p class="section-label">Modules</p>
+    <div class="modules-grid">
+
+      <a class="module-card" href="#" style="--accent: #00c9a7;">
+        <span class="module-slug">Graft/Map</span>
+        <span class="module-name">Lifemap</span>
+        <p class="module-desc">
+          See everywhere you've ever been. Upload your Google Timeline — instantly rendered as an animated map. Find out what you drove, and what HMRC owes you back.
+        </p>
+        <div class="module-meta">
+          <span class="module-status live">Live</span>
+          <span class="module-arrow">→</span>
+        </div>
+      </a>
+
+      <a class="module-card" href="#" style="--accent: #ff6b35;">
+        <span class="module-slug">Graft/Sell</span>
+        <span class="module-name">ResellerHQ</span>
+        <p class="module-desc">
+          Tax compliance and listing automation for UK eBay resellers. AI-powered receipts, DAC7 reporting, eBay sync. Your personal accountant for the side hustle.
+        </p>
+        <div class="module-meta">
+          <span class="module-status live">Live</span>
+          <span class="module-arrow">→</span>
+        </div>
+      </a>
+
+      <a class="module-card" href="#" style="--accent: #f5c518;">
+        <span class="module-slug">Graft/Drive</span>
+        <span class="module-name">The Pipe</span>
+        <p class="module-desc">
+          Real-time job scoring for Uber Eats and Deliveroo drivers. Accept, reject, or switch based on actual economics — not gut feeling. Tracks mileage for HMRC automatically.
+        </p>
+        <div class="module-meta">
+          <span class="module-status live">Live</span>
+          <span class="module-arrow">→</span>
+        </div>
+      </a>
+
+      <a class="module-card" href="#" style="--accent: #00b4d8;">
+        <span class="module-slug">Graft/Van</span>
+        <span class="module-name">VanHQ</span>
+        <p class="module-desc">
+          The platform that runs your removals business. Dispatch, driver app, customer tracking, invoicing, payouts. From quote to sign-off, fully managed.
+        </p>
+        <div class="module-meta">
+          <span class="module-status live">Live</span>
+          <span class="module-arrow">→</span>
+        </div>
+      </a>
+
+      <a class="module-card" href="#" style="--accent: #e84393;">
+        <span class="module-slug">Graft/Video</span>
+        <span class="module-name">Graft Video</span>
+        <p class="module-desc">
+          Premiere features. None of the bloat. Browser-based editor that grows with you — hit a wall, ask for a feature, keep editing. Built around the pain of real projects, not hypothetical workflows.
+        </p>
+        <div class="module-meta">
+          <span class="module-status beta">Building</span>
+          <span class="module-arrow">→</span>
+        </div>
+      </a>
+
+      <a class="module-card" href="#" style="--accent: #4ade80;">
+        <span class="module-slug">Graft/Tax</span>
+        <span class="module-name">TaxFlow</span>
+        <p class="module-desc">
+          HMRC, handled. Self-assessment for UK sole traders and gig workers — fed automatically by your mileage from The Pipe, your sales from ResellerHQ, your earnings from VanHQ.
+        </p>
+        <div class="module-meta">
+          <span class="module-status soon">Coming soon</span>
+          <span class="module-arrow">→</span>
+        </div>
+      </a>
+
+      <a class="module-card" href="#" style="--accent: #a78bfa;">
+        <span class="module-slug">Graft/Cast</span>
+        <span class="module-name">ExtraAgent</span>
+        <p class="module-desc">
+          AI-powered casting board for UK film and TV extras. Sync your profiles, automate the admin, track your acting income. Stop doing manually what a script can do faster.
+        </p>
+        <div class="module-meta">
+          <span class="module-status beta">Beta</span>
+          <span class="module-arrow">→</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="origin" id="origin">
+    <div class="origin-inner">
+      <p class="section-label">Origin</p>
+      <blockquote>
+        "Built by someone so allergic to HMRC that they automated their entire working life instead."
+      </blockquote>
+      <p>
+        It started with procrastination. Couldn't face logging into HMRC, so built ResellerHQ instead. Then Lifemap, to see where all those delivery miles actually went. Then TaxFlow was conceived, because every product kept generating data with nowhere to go.
+      </p>
+      <p>
+        Then The Pipe, because delivery drivers were leaving money on the table every shift. Then VanHQ, because the removals industry had no decent dispatch infrastructure. Then ExtraAgent, because actors were doing the same admin manually that everything else was automating.
+      </p>
+      <p>
+        Every product in this ecosystem exists because someone with a real job in the gig economy needed it and couldn't find it. That's the only filter that matters here.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <span>graft.tools</span>
+    <span>Built in the UK &nbsp;·&nbsp; <a href="mailto:hello@graft.tools">hello@graft.tools</a></span>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
