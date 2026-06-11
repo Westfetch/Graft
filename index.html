@@ -497,6 +497,7 @@
           Built from personal pain. If you've got a workflow that needs fixing, it might become the next module.
         </p>
         <form id="contact-form" style="display:none; flex-direction:column; gap:10px;">
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" />
           <input type="text" name="name" placeholder="Name" required style="background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px;font-family:var(--font);font-size:.75rem;outline:none;" />
           <input type="email" name="email" placeholder="Email" required style="background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px;font-family:var(--font);font-size:.75rem;outline:none;" />
           <textarea name="message" placeholder="What workflow needs fixing?" required rows="3" style="background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px;font-family:var(--font);font-size:.75rem;outline:none;resize:vertical;"></textarea>
@@ -563,6 +564,7 @@
             name: fd.get('name'),
             email: fd.get('email'),
             message: fd.get('message'),
+            website: fd.get('website'),
           }),
         });
         if (res.ok) {
